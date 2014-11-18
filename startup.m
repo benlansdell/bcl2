@@ -1,0 +1,21 @@
+%Extend default colour scheme to 13 colours
+addpath('./scripts');
+addpath('./functions');
+addpath('./models');
+my_ColorOrder = [   0.00000   0.00000   1.00000;
+   0.00000   0.50000   0.00000;
+   1.00000   0.00000   0.00000;
+   0.00000   0.75000   0.75000;
+   0.75000   0.00000   0.75000;
+   0.75000   0.75000   0.00000;
+   0.25000   0.25000   0.25000;
+   0.00000   0.90000   0.00000;
+   1.00000   0.50000   0.00000;
+   0.95000   0.95000   0.00000;
+   0.60000   0.60000   0.60000;
+   0.00000   0.00000   0.00000;
+   1.00000   0.00000   1.00000];
+set(0,'DefaultAxesColorOrder',my_ColorOrder);
+set(0, 'defaultaxesfontsize', 14);
+set(0, 'defaulttextfontsize', 14);
+disp('startup.m: Default colour order extended');
