@@ -19,7 +19,8 @@ function R = robust_analysis_bentele_rndparam_6(n, basename)
 	%						R.hessian = matrix of the 'mean Hessian'
 	% 
 	% Examples:
-	%						R = robust_analysis_bentele_rndparam_6_heatmap(2, './images/robust_analysis_bentele_rndparam_6');
+	%						n = 1000;
+	%						R = robust_analysis_bentele_rndparam_6_heatmap(n, './images/robust_analysis_bentele_rndparam_6');
 
 	%Change parameter by 10%
 	dk = 0.99;
