@@ -2,7 +2,7 @@
 addpath('./scripts');
 addpath('./functions');
 addpath('./models');
-addpath('./dram');
+addpath('./gwmcmc');
 my_ColorOrder = [   0.00000   0.00000   1.00000;
    0.00000   0.50000   0.00000;
    1.00000   0.00000   0.00000;
