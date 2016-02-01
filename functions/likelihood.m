@@ -124,12 +124,12 @@ function [f, h1, h2, h3, h4, h5] = run_simulation(model, activator, T_p, t, x, f
 	ic(1) = x(19);
 	ic(13) = x(20);
 	if length(fn_out) > 1
-		[f, h1, h2, h3, h4, h5] = bcl2model(k, ic, names, t, T_p, activator, fn_out);
+		[f, h1, h2, h3, h4, h5] = bcl2model(k, ic, names, t, T_p, activator);
 		saveplot(h1, './worksheets/2016-02-01_testrun/testsim1.eps')
 		saveplot(h2, './worksheets/2016-02-01_testrun/testsim2.eps')
 		saveplot(h3, './worksheets/2016-02-01_testrun/testsim3.eps')
 		saveplot(h4, './worksheets/2016-02-01_testrun/testsim4.eps')
 	else
-		f = bcl2model(k, ic, names, t, T_p, activator, fn_out);	 
+		f = bcl2model(k, ic, names, t, T_p, activator);	 
 	end
 end
