@@ -23,7 +23,7 @@ function fit_mcmc(nruns)
 
 	if (nargin < 1) nruns = 5000; end 
 
-	nW = 200;
+	nW = 500;
 	nPars = 25;
 	minit = zeros(nPars, nW);
 

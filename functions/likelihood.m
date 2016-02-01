@@ -123,7 +123,7 @@ function [f, h1, h2, h3, h4, h5] = run_simulation(model, activator, T_p, t, x, f
 	%ic = [B_0 T_0 M_0 0 C_0 0 0 0 0 0 0 0 X_0];
 	ic(1) = x(19);
 	ic(13) = x(20);
-	if length(fn_out) > 1
+	if length(fn_out) > 0
 		[f, h1, h2, h3, h4, h5] = bcl2model(k, ic, names, t, T_p, activator);
 		saveplot(h1, './worksheets/2016-02-01_testrun/testsim1.eps')
 		saveplot(h2, './worksheets/2016-02-01_testrun/testsim2.eps')

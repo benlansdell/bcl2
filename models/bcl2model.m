@@ -108,7 +108,7 @@ function [conc, h1, h2, h3, h4, h5] = bcl2model (k, ic, names, t, T_p, activator
 		legend('Bak', 'Bak*', 'Bak*:Mcl-1', 'Dim. Bak*', 'Multi. Bak*', 'Bak*:Bcl-x_L', 'Location', 'NorthEast');
 		xlabel('time (min)');
 		ylabel('concentration (nM)');
-		ylim([0 12]);
+		ylim([0 2]);
 		xlim([0 min(120, length(t)/60)]);
 	
 		h2 = figure();
@@ -136,7 +136,7 @@ function [conc, h1, h2, h3, h4, h5] = bcl2model (k, ic, names, t, T_p, activator
 		end
 		xlabel('time (min)');
 		ylabel('concentration (nM)');
-		ylim([0 23]);
+		ylim([0 36]);
 		xlim([0 min(120, length(t)/60)]);
 		
 		h4 = figure();
@@ -155,7 +155,7 @@ function [conc, h1, h2, h3, h4, h5] = bcl2model (k, ic, names, t, T_p, activator
 		legend('Bcl-x_L', [activator ':Bcl-x_L'], 'Bak*:Bcl-x_L', 'Location', 'NorthEast');
 		xlabel('time (min)');
 		ylabel('concentration (nM)');
-		ylim([0 5]);
+		ylim([0 2]);
 		xlim([0 min(120, length(t)/60)]);
 	end
 	
