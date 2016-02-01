@@ -1,4 +1,4 @@
-function logl = likelihood(x, observations, observations_std)
+function logl = likelihood(x, observations, observations_std, fn_out)
 	%ssfun(par,data)
 
 	% likelihood	Compute log-likelihood for a given set of parameters by simulating
@@ -21,12 +21,14 @@ function logl = likelihood(x, observations, observations_std)
 %                16   17   18   19   20   21                  23
 %k3d_tbim, k3d_tbid, k4d, k5d, k6d, k7d, k8d, k9d_tbim, k9d_tbid
 
+	if (nargin < 4) fn_out = ''; end 
+
 	model = 'reversible_exp46';
 	tbim_params = [1 3 4 6 7 8 9 10 11 13 14 15 17 18 19 20 21 22 24 25];
 	tbid_params = [2 3 5 6 7 8 9 10 12 13 14 16 17 18 19 20 21 23 24 25];
 
 	[obs, obs_std] = scale(observations, observations_std, x, model);
-	ssr = ss_resid(x, obs, obs_std, model, tbim_params, tbid_params);
+	ssr = ss_resid(x, obs, obs_std, model, tbim_params, tbid_params, fn_out);
 	logl = -ssr/2;
 end
 
@@ -61,25 +63,25 @@ function [obs, obs_std] = scale(observations, observations_std, x, model)
 	%	0.03*100/35 0.27*100/35 27*100/35	100	  100	100    100 	100	  100	100]; 		%tBid:Mcl-1			(Mcl-1 limited. x 35/100)
 end
 
-function ssr = ss_resid(x, observations, obs_std, model, tbim_params, tbid_params)
-	res = residuals(x, observations, model, tbim_params, tbid_params);
+function ssr = ss_resid(x, observations, obs_std, model, tbim_params, tbid_params, fn_out)
+	res = residuals(x, observations, model, tbim_params, tbid_params, fn_out);
 	%res
-	obs_std 
+	%obs_std 
 	%res.^2./(obs_std.^2)
 	ssr = sum(sum(res.^2./(obs_std.^2)));
 end
 
-function res = residuals(x, observations, model, tbim_params, tbid_params)
+function res = residuals(x, observations, model, tbim_params, tbid_params, fn_out)
 	%Simulate both tBim and tBid experiments, return log-likelihood from both
 	%TODO (eventually): add extra experiments with out Mcl1
-	res = [solve_ode('tBim', model, x(tbim_params));
-	       solve_ode('tBid', model, x(tbid_params))] - observations;
+	res = [solve_ode('tBim', model, x(tbim_params), fn_out);
+	       solve_ode('tBid', model, x(tbid_params), fn_out)] - observations;
 end
 
-function f_scaled = solve_ode(activator, model, x)	
+function f_scaled = solve_ode(activator, model, x, fn_out)	
 	t = (-50*60):(181*60);
 	time_points = (50*60) + 60*[0 10 20 30 40 50 60 90 120 150] + 1;
-	f = run_simulation(model, activator, T_p_exp46(activator), t, x);	
+	f = run_simulation(model, activator, T_p_exp46(activator), t, x, fn_out);	
 	cytcc = f(9, time_points);
 	bakmcl1 = f(8, time_points);
 	tbimmcl1 = f(7, time_points);
@@ -91,7 +93,7 @@ function f_scaled = solve_ode(activator, model, x)
 	f_scaled = [cytcc; bakmcl1; bak; tbimmcl1];	
 end
 
-function [f, h1, h2, h3, h4, h5] = run_simulation(model, activator, T_p, t, x)
+function [f, h1, h2, h3, h4, h5] = run_simulation(model, activator, T_p, t, x, fn_out)
 	[k, ic, names] = load_model46(activator, model);
 	%tBid/tBim
 	k(1,1) = 10^x(1);
@@ -121,5 +123,13 @@ function [f, h1, h2, h3, h4, h5] = run_simulation(model, activator, T_p, t, x)
 	%ic = [B_0 T_0 M_0 0 C_0 0 0 0 0 0 0 0 X_0];
 	ic(1) = x(19);
 	ic(13) = x(20);
-	f = bcl2model(k, ic, names, t, T_p, activator);
+	if length(fn_out) > 1
+		[f, h1, h2, h3, h4, h5] = bcl2model(k, ic, names, t, T_p, activator, fn_out);
+		saveplot(h1, './worksheets/2016-02-01_testrun/testsim1.eps')
+		saveplot(h2, './worksheets/2016-02-01_testrun/testsim2.eps')
+		saveplot(h3, './worksheets/2016-02-01_testrun/testsim3.eps')
+		saveplot(h4, './worksheets/2016-02-01_testrun/testsim4.eps')
+	else
+		f = bcl2model(k, ic, names, t, T_p, activator, fn_out);	 
+	end
 end

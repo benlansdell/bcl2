@@ -28,8 +28,8 @@ function fit_mcmc(nruns)
 	minit = zeros(nPars, nW);
 
 	%test run
-	nruns = 10;
-	nW = 10;
+	%nruns = 10;
+	%nW = 10;
 
 	[obs, obs_std] = observations_exp46();
 
@@ -46,7 +46,15 @@ function fit_mcmc(nruns)
 	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns); 
 	models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in 
 	models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension 
-	scatter(models(:,1),models(:,2)) 
+
+	for j = 1:nPars
+		for i = j:nPars
+			subplot(nPars*nPars, j, i)
+			scatter(models(:,i),models(:,j))
+		end
+	end
+
+	%scatter(models(:,1),models(:,2)) 
 	prctile(models,[5 50 95]) 
 
 	%f_tbid = run_simulation(model, 'tBid', T_p_exp14('tBid'), 0:(181*60), fits(tbid_params));
