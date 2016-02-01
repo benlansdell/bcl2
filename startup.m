@@ -1,5 +1,4 @@
 %Extend default colour scheme to 13 colours
-addpath('./scripts');
 addpath('./functions');
 addpath('./models');
 addpath('./gwmcmc');

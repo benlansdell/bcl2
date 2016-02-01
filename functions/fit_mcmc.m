@@ -1,4 +1,4 @@
-function fit_mcmc(nruns, data_out)
+function fit_mcmc(data_out, nruns)
 	% fit_mcmc	Run MCMC using http://helios.fmi.fi/~lainema/mcmc/ to generate
 	%			estimate of posterior
 	%
@@ -21,9 +21,9 @@ function fit_mcmc(nruns, data_out)
 %      {'par2',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
 %      ... }
 
-	if (nargin < 1) nruns = 5000; end 
+	if (nargin < 2) nruns = 5000; end 
 
-	nW = 500;
+	nW = 300;
 	nPars = 25;
 	minit = zeros(nPars, nW);
 
