@@ -1,13 +1,13 @@
-function fit_mcmc(nruns)
+function fit_mcmc(nruns, data_out)
 	% fit_mcmc	Run MCMC using http://helios.fmi.fi/~lainema/mcmc/ to generate
 	%			estimate of posterior
 	%
 	% Usage:
-	%			fit_mcmc(nruns, bn_out)
+	%			fit_mcmc(nruns, data_out)
 	%
 	% Input:
 	%			nruns
-	%			bn_out = base name of output files to write images to
+	%			data_out = name of output file to write data to
 
 	%Setup params
 	%A0 = 0.02090; B0 = A0/3; C0 = 0; D0 = 0; E0 = 0;
@@ -44,18 +44,20 @@ function fit_mcmc(nruns)
 	
 	%Apply the MCMC hammer 
 	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns); 
-	models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in 
-	models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension 
+	%models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in 
+	%models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension 
 
-	for j = 1:nPars
-		for i = j:nPars
-			subplot(nPars*nPars, j, i)
-			scatter(models(:,i),models(:,j))
-		end
-	end
+	%for j = 1:nPars
+	%	for i = j:nPars
+	%		subplot(nPars*nPars, j, i)
+	%		scatter(models(:,i),models(:,j))
+	%	end
+	%end
 
 	%scatter(models(:,1),models(:,2)) 
-	prctile(models,[5 50 95]) 
+	%prctile(models,[5 50 95]) 
+
+	save(data_out, 'models', 'logP');
 
 	%f_tbid = run_simulation(model, 'tBid', T_p_exp14('tBid'), 0:(181*60), fits(tbid_params));
 	%f_tbim = run_simulation(model, 'tBim', T_p_exp14('tBim'), 0:(181*60), fits(tbim_params));
