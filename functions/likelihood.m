@@ -35,7 +35,7 @@ end
 function [obs, obs_std] = scale(observations, observations_std, x, model)
 	%ic = [B_0 T_0 M_0 0 C_0 0 0 0 0 0 0 0 X_0];
 	[k, ic, names] = load_model46('tBim', model);
-	B_0 = x(24)
+	B_0 = x(24);
 	M_0 = ic(3);
 	C_0 = ic(5);
 	%Scale the Bak limited observations
