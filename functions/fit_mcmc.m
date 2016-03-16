@@ -17,9 +17,9 @@ function fit_mcmc(data_out, nruns)
 	%[k0,ss0] = fminsearch(@himmelss,k00,[],data)
 	%mse = ss0/(length(data.ydata)-4);
 
-%   {  {'par1',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
-%      {'par2',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
-%      ... }
+	%   {  {'par1',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
+	%      {'par2',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
+	%      ... }
 
 	if (nargin < 2) nruns = 5000; end 
 
