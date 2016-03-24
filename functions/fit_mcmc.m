@@ -22,6 +22,7 @@ function fit_mcmc(data_out, nruns)
 	%      ... }
 
 	if (nargin < 2) nruns = 5000; end 
+	assert(nargin > 0, 'Please specify output file name')
 
 	nW = 300;
 	nPars = 25;
