@@ -46,8 +46,34 @@ logPfuns = {prior ll};
 for idx = 1:nW
 	minit(:,idx) = sampleprior_test(mu, prior_sig); 
 end
-	
+
 %Apply the MCMC hammer 
 [models,logP]=gwmcmc(minit,logPfuns,nW*nruns); 
 
 %Analyse results
+models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in
+models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension
+scatter(models(:,1),models(:,2))
+prctile(models,[5 50 95])
+nM = size(models,1);
+
+%Draw some samples from the posterior and plot their solution 
+nS = 200;
+idxsamp = randsample(1:nM, nS);
+
+samp_models = models(idxsamp, :, 3);
+t = linspace(0, .2, nP);
+samp_sols = zeros(nS, length(t));
+
+clf
+for idx = 1:nS
+	hold on 
+	ka = samp_models(idx,1);
+	kd = samp_models(idx,2);
+	df = @(t,x) [kd*x(3)-ka*x(1)*x(2)*x(2); 2*kd*x(3)-2*ka*x(1)*x(2)*x(2); ka*x(1)*x(2)*x(2) - kd*x(3)];
+	[T, f] = solver(df, t, x0, options);
+	samp_sols(idx, :, :) = f;
+	plot(T, f, tpts, data, 'o')
+end
+
+%Plot histograms of parameter estimates
