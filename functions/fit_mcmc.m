@@ -44,7 +44,7 @@ function fit_mcmc(data_out, nruns)
 	end
 	
 	%Apply the MCMC hammer 
-	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns, ['Parallel', 'true']); 
+	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns, 'Parallel', true); 
 	%models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in 
 	%models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension 
 
