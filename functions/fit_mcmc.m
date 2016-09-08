@@ -3,11 +3,11 @@ function fit_mcmc(data_out, nruns)
 	%			estimate of posterior
 	%
 	% Usage:
-	%			fit_mcmc(nruns, data_out)
+	%			fit_mcmc(data_out, nruns)
 	%
 	% Input:
-	%			nruns
 	%			data_out = name of output file to write data to
+	%			nruns = number of runs
 
 	%Setup params
 	%A0 = 0.02090; B0 = A0/3; C0 = 0; D0 = 0; E0 = 0;
@@ -21,10 +21,10 @@ function fit_mcmc(data_out, nruns)
 	%      {'par2',initial, min, max, pri_mu, pri_sig, targetflag, localflag}
 	%      ... }
 
-	if (nargin < 2) nruns = 5000; end 
 	assert(nargin > 0, 'Please specify output file name')
+	if (nargin < 2) nruns = 50000; end 
 
-	nW = 300;
+	nW = 100;
 	nPars = 25;
 	minit = zeros(nPars, nW);
 
@@ -44,7 +44,7 @@ function fit_mcmc(data_out, nruns)
 	end
 	
 	%Apply the MCMC hammer 
-	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns); 
+	[models,logP]=gwmcmc(minit,logPfuns,nW*nruns, ['Parallel', true]); 
 	%models(:,:,1:floor(size(models,3)*.2))=[]; %remove 20% as burn-in 
 	%models=models(:,:)'; %reshape matrix to collapse the ensemble member dimension 
 
