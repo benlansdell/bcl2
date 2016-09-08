@@ -5,6 +5,10 @@ nrun = 2;
 data_in = ['./gwmcmc-run' num2str(nrun) '.mat'];
 load(data_in);
 
+%Plot estimates of parameters
+plot(squeeze(models(1,1:10,:))');
+%Nowhere near convergence...
+
 %Try different burn ins.
 burnin = 0.3;
 nB = floor(burnin*size(models, 3));

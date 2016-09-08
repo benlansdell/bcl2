@@ -4,8 +4,8 @@ nP = 1000;
 sig = 0.2;
 prior_sig = 1;
 mu = [1, 1];
-nW = 300;
-nruns = 500;
+nW = 100;
+nruns = 50;
 nPars = 2;
 minit = zeros(nPars, nW);
 
@@ -61,9 +61,10 @@ nM = size(models,1);
 nS = 200;
 idxsamp = randsample(1:nM, nS);
 
-samp_models = models(idxsamp, :, 3);
+%samp_models = models(idxsamp, :, 3);
+samp_models = models(idxsamp, :);
 t = linspace(0, .2, nP);
-samp_sols = zeros(nS, length(t));
+samp_sols = zeros(nS, length(t), 3);
 
 clf
 for idx = 1:nS
@@ -77,3 +78,16 @@ for idx = 1:nS
 end
 
 %Plot histograms of parameter estimates
+figure 
+ka = samp_models(:,1);
+kd = samp_models(:,2);
+subplot(2,2,1)
+hist(ka)
+subplot(2,2,2)
+plot(ka, kd, '.')
+subplot(2,2,3)
+plot(ka, kd, '.')
+subplot(2,2,4)
+hist(kd)
+
+
